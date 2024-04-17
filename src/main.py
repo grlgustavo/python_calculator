@@ -2,6 +2,8 @@ import sys
 from PySide6.QtWidgets import QApplication
 from PySide6.QtGui import QIcon
 from main_window import MainWindow
+from display import Display
+from info import Info
 from variables import WINDOWS_ICO_PATH
 
 if __name__ == '__main__':
@@ -18,6 +20,14 @@ if __name__ == '__main__':
         import ctypes
         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(
             u'CompanyName.ProductName.SubProduct.VersionInformation')
+
+    info = Info('2.0 ^ 10.0 = 1024')
+    window.addToVLayout(info)
+
+    # Display
+    display = Display('0')
+
+    window.addToVLayout(display)
 
     # Executa tudo
     window.adjustFixedSize()

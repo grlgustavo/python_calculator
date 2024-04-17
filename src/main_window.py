@@ -11,8 +11,8 @@ class MainWindow(QMainWindow):
 
         # Configurando o layout básico
         self.cw = QWidget()
-        self.v_layout = QVBoxLayout()
-        self.cw.setLayout(self.v_layout)
+        self.vLayout = QVBoxLayout()
+        self.cw.setLayout(self.vLayout)
         self.setCentralWidget(self.cw)
 
     def adjustFixedSize(self):
@@ -20,5 +20,5 @@ class MainWindow(QMainWindow):
         self.adjustSize()
         self.setFixedSize(self.width(), self.height())
 
-    def addWidgetToVLayout(self, widget: QWidget):
-        self.v_layout.addWidget(widget)
+    def addToVLayout(self, widget: QWidget):
+        self.vLayout.addWidget(widget)
