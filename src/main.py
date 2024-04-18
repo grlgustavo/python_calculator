@@ -10,8 +10,8 @@ import qdarktheme
 if __name__ == '__main__':
     # Cria a aplicação
     app = QApplication(sys.argv)
-    dark_stylesheet = qdarktheme.load_stylesheet('dark')  # light ou dark
-    app.setStyleSheet(str(dark_stylesheet))
+    typeStylesheet = qdarktheme.load_stylesheet('light')  # light ou dark
+    app.setStyleSheet(str(typeStylesheet))
     window = MainWindow()
 
     # Defini o ícone

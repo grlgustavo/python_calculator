@@ -7,6 +7,8 @@
 from PySide6.QtGui import QIcon
 import qdarktheme
 
+temp = QIcon()
+
 
 def setupTheme(typeTheme: str = 'dark'):
     qdarktheme.load_stylesheet(typeTheme)  # ou dark
