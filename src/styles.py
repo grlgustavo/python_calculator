@@ -6,8 +6,24 @@
 
 from PySide6.QtGui import QIcon
 import qdarktheme
+import variables as var
 
 temp = QIcon()
+
+qss = f'''
+    PushButton[cssClass="specialButton"] {{
+        color: #fff;
+        background: {var.PRIMARY_COLOR};
+    }}
+    PushButton[cssClass="specialButton"]:hover {{
+        color: #fff;
+        background: {var.DARKER_PRIMARY_COLOR};
+    }}
+    PushButton[cssClass="specialButton"]:pressed {{
+        color: #fff;
+        background: {var.DARKEST_PRIMARY_COLOR};
+    }}
+'''
 
 
 def setupTheme(typeTheme: str = 'dark'):
