@@ -3,8 +3,7 @@ import variables as var
 from PySide6.QtWidgets import QApplication
 from PySide6.QtGui import QIcon
 from main_window import MainWindow
-from display import Display
-from info import Info
+from display import Display, Info
 import qdarktheme
 
 if __name__ == '__main__':
