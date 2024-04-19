@@ -12,14 +12,17 @@ temp = QIcon()
 
 qss = f'''
     PushButton[cssClass="specialButton"] {{
+    QPushButton[cssClass="specialButton"] {{
         color: #fff;
         background: {var.PRIMARY_COLOR};
     }}
     PushButton[cssClass="specialButton"]:hover {{
+    QPushButton[cssClass="specialButton"]:hover {{
         color: #fff;
         background: {var.DARKER_PRIMARY_COLOR};
     }}
     PushButton[cssClass="specialButton"]:pressed {{
+    QPushButton[cssClass="specialButton"]:pressed {{
         color: #fff;
         background: {var.DARKEST_PRIMARY_COLOR};
     }}

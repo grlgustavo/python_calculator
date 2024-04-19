@@ -4,6 +4,7 @@ from PySide6.QtWidgets import QApplication
 from PySide6.QtGui import QIcon
 from main_window import MainWindow
 from display import Display, Info
+from buttons import ButtonsGrid
 import qdarktheme
 
 if __name__ == '__main__':
@@ -23,13 +24,19 @@ if __name__ == '__main__':
         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(
             u'CompanyName.ProductName.SubProduct.VersionInformation')
 
+    # Info
     info = Info('2.0 ^ 10.0 = 1024')
     window.addToVLayout(info)
 
     # Display
     display = Display('0')
-
     window.addToVLayout(display)
+
+    # Grid
+    buttonsGrid = ButtonsGrid()
+    window.vLayout.addLayout(buttonsGrid)
+
+    # Button
 
     # Executa tudo
     window.adjustFixedSize()
