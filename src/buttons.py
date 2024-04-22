@@ -45,8 +45,8 @@ class Button(QPushButton):
         self.configStyle()
 
     def configStyle(self):
-        font = self.font()
-        font.setPixelSize(MEDIUM_FONT_SIZE)
-        self.setFont(font)
-        self.setMinimumSize(50, 50)
+        # font = self.font()
+        # font.setPixelSize(MEDIUM_FONT_SIZE)
+        # self.setFont(font)
+        # self.setMinimumSize(50, 50)
         self.setProperty('cssClass', 'specialButton')

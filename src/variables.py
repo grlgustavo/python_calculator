@@ -3,7 +3,9 @@ from pathlib import Path
 # Folder
 ROOT_FOLDER = Path(__file__).parent.parent
 IMG_DIR = ROOT_FOLDER / 'img'
+SRC_DIR = ROOT_FOLDER / 'src'
 WINDOWS_ICO_PATH = IMG_DIR / 'calculator_ico.png'
+STYLE_QSS_PATH = SRC_DIR / 'style.qss'
 
 # Theme
 BIG_FONT_SIZE = 50

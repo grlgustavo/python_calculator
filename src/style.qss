@@ -1,0 +1,25 @@
+import variables as var
+
+QLabel {
+    background-color: red;
+}
+
+QLabel#title {
+    font-size: 20px;
+}
+
+QPushButton[cssClass="specialButton"] {
+    color: #fff;
+    background: {var.PRIMARY_COLOR};
+}
+
+QPushButton[cssClass="specialButton"]:hover {
+    color: #fff;
+    background: {var.DARKER_PRIMARY_COLOR};
+}
+    
+QPushButton[cssClass="specialButton"]:pressed {
+    color: #fff;
+    background: {var.DARKEST_PRIMARY_COLOR};
+    font-size:{var.MEDIUM_FONT_SIZE}
+}

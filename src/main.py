@@ -5,13 +5,18 @@ from PySide6.QtGui import QIcon
 from main_window import MainWindow
 from display import Display, Info
 from buttons import ButtonsGrid
-import qdarktheme
+# import qdarktheme
 
 if __name__ == '__main__':
     # Cria a aplicação
     app = QApplication(sys.argv)
-    typeStylesheet = qdarktheme.load_stylesheet('light')  # light ou dark
-    app.setStyleSheet(str(typeStylesheet))
+    # typeStylesheet = qdarktheme.load_stylesheet('light')  # light ou dark
+    # app.setStyleSheet(str(typeStylesheet))
+
+    with open(var.STYLE_QSS_PATH, "r") as f:
+        _style = f.read()
+        app.setStyleSheet(_style)
+
     window = MainWindow()
 
     # Defini o ícone
