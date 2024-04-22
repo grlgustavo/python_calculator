@@ -29,14 +29,12 @@ if __name__ == '__main__':
     window.addToVLayout(info)
 
     # Display
-    display = Display('0')
+    display = Display()
     window.addToVLayout(display)
 
     # Grid
-    buttonsGrid = ButtonsGrid()
+    buttonsGrid = ButtonsGrid(display)
     window.vLayout.addLayout(buttonsGrid)
-
-    # Button
 
     # Executa tudo
     window.adjustFixedSize()
