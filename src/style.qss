@@ -9,17 +9,37 @@ QLabel#title {
 }
 
 QPushButton[cssClass="specialButton"] {
+    border: 2px solid #fff;
     color: #fff;
-    background: {var.PRIMARY_COLOR};
+    background: blue;
 }
 
 QPushButton[cssClass="specialButton"]:hover {
+    border: 2px solid #fff;
     color: #fff;
-    background: {var.DARKER_PRIMARY_COLOR};
+    background: blue;
 }
     
 QPushButton[cssClass="specialButton"]:pressed {
+    border: 2px solid #fff;
     color: #fff;
-    background: {var.DARKEST_PRIMARY_COLOR};
-    font-size:{var.MEDIUM_FONT_SIZE}
+    background: darkblue
+}
+
+QPushButton[cssClass="numbersButton"] {
+    border: 2px solid #fff;
+    color: #fff;
+    background: gray;
+}
+
+QPushButton[cssClass="numbersButton"]:hover {
+    border: 2px solid #fff;
+    color: #fff;
+    background: gray;
+}
+    
+QPushButton[cssClass="numbersButton"]:pressed {
+    border: 2px solid #fff;
+    color: #fff;
+    background: darkgray
 }
