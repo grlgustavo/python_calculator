@@ -1,4 +1,3 @@
-import variables as var
 
 QLabel {
     background-color: red;
@@ -8,20 +7,25 @@ QLabel#title {
     font-size: 20px;
 }
 
+QPushButton:default {
+    border: 2px solid #8f8f91;
+    border-radius: 6px;
+}
+
 QPushButton[cssClass="specialButton"] {
-    border: 2px solid #fff;
+    /* border: 2px solid #fff; */
     color: #fff;
     background: blue;
 }
 
 QPushButton[cssClass="specialButton"]:hover {
-    border: 2px solid #fff;
+    /* border: 2px solid #fff; */
     color: #fff;
     background: blue;
 }
     
 QPushButton[cssClass="specialButton"]:pressed {
-    border: 2px solid #fff;
+    /* border: 2px solid #fff; */
     color: #fff;
     background: darkblue
 }
