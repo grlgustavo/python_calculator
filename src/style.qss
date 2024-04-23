@@ -1,39 +1,45 @@
-
 QLabel {
-    background-color: red;
+    background-color: none;
 }
 
 QLabel#title {
     font-size: 20px;
 }
 
-QPushButton:default {
-    border: 2px solid #8f8f91;
-    border-radius: 6px;
-}
+
 
 QPushButton[cssClass="specialButton"] {
-    /* border: 2px solid #fff; */
     color: #fff;
-    background: blue;
+    background-color: blue;
+    border-style: solid;
+    border-color: blue;
+    border-width: 2px;
+    border-radius: 5px;
+    min-height: 50px;
+    min-width: 50px;
 }
 
 QPushButton[cssClass="specialButton"]:hover {
-    /* border: 2px solid #fff; */
     color: #fff;
     background: blue;
+    border-color: #fff;
+
 }
     
 QPushButton[cssClass="specialButton"]:pressed {
-    /* border: 2px solid #fff; */
     color: #fff;
     background: darkblue
 }
 
 QPushButton[cssClass="numbersButton"] {
-    border: 2px solid #fff;
     color: #fff;
-    background: gray;
+    background-color: gray;
+    border-style: solid;
+    border-color: #8f8f91;
+    border-width: 2px;
+    border-radius: 5px;
+    min-height: 50px;
+    min-width: 50px;
 }
 
 QPushButton[cssClass="numbersButton"]:hover {
