@@ -10,6 +10,7 @@ QLabel#title {
 
 QPushButton[cssClass="specialButton"] {
     color: #fff;
+    font-size: 25px;
     background-color: blue;
     border-style: solid;
     border-color: blue;
@@ -33,6 +34,7 @@ QPushButton[cssClass="specialButton"]:pressed {
 
 QPushButton[cssClass="numbersButton"] {
     color: #fff;
+    font-size: 25px;
     background-color: gray;
     border-style: solid;
     border-color: #8f8f91;
