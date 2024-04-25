@@ -1,7 +1,9 @@
 from typing import TYPE_CHECKING
 from PySide6.QtWidgets import QPushButton, QGridLayout
 from PySide6.QtCore import Slot
-from utils import isEmpty, isNumOrDot, isValidNumber, isSignal
+import math
+from utils import (isEmpty, isNumOrDot, isValidNumber, isInverseSignal, isZero,
+                   isDot)
 
 if TYPE_CHECKING:  # Evita erros de circular import
     from display import Display, Info
@@ -42,7 +44,7 @@ class ButtonsGrid(QGridLayout):
                 button = Button(buttonText)
                 if (not isNumOrDot(buttonText) and
                     not isEmpty(buttonText) and
-                        not isSignal(buttonText)):
+                        not isInverseSignal(buttonText)):
                     button.setProperty('cssClass', 'specialButton')
                     self._configSpecialButton(button)
                 else:
@@ -64,20 +66,58 @@ class ButtonsGrid(QGridLayout):
 
     def _insertButtonTextToDisplay(self, button):
         buttonText = button.text()
-        displayValue = self.display.text()
-        if displayValue == '0' or displayValue == '-0.0':
-            self.display.clear()
         newDisplayValue = self.display.text() + buttonText
+        if isDot(newDisplayValue):
+            newDisplayValue = '0'
         if not isValidNumber(newDisplayValue):
             return
 
         self.display.insert(buttonText)
 
+    def _popString(self):
+        displayText = self.display.text()
+        try:
+            newDisplayValue = float(displayText[0:len(displayText)-1])
+        except ValueError:
+            return
+        self.display.setText(str(newDisplayValue))
+
+    def _inverseNumber(self):
+        displayText = self.display.text()
+        if isZero(displayText) or isEmpty(displayText) or isDot(displayText):
+            return
+        try:
+            displayValue = round(1/float(displayText), 4)
+        except ValueError:
+            self.display.setText('Entrada inválida')
+        self.display.setText(str(displayValue))
+
     def _changeDisplaySignal(self):
         displayText = self.display.text()
-        if not isValidNumber(displayText):
+        if isZero(displayText) or isEmpty(displayText):
             return
-        displayValue = -1 * float(displayText)
+        try:
+            displayValue = -1 * float(displayText)
+        except ValueError:
+            self.display.setText('Entrada inválida')
+        self.display.setText(str(displayValue))
+
+    def _squareRoot(self):
+        displayText = self.display.text()
+        try:
+            displayValue = round(math.sqrt(float(displayText)), 4)
+        except ValueError:
+            self.display.setText('Entrada inválida')
+            return
+        self.display.setText(str(displayValue))
+
+    def _exponation(self):
+        displayText = self.display.text()
+        try:
+            displayValue = float(displayText) ** 2
+        except ValueError:
+            self.display.setText('Entrada inválida')
+            return
         self.display.setText(str(displayValue))
 
     def _clear(self):
@@ -85,10 +125,21 @@ class ButtonsGrid(QGridLayout):
 
     def _configSpecialButton(self, button):
         text = button.text()
-
+        slot = self._makeSlot(self._clear)
         if text == 'C':
             slot = self._makeSlot(self._clear)
-            self._connectButtonClicked(button, slot)
+            # self._connectButtonClicked(button, slot)
+        elif text == '←':
+            slot = self._makeSlot(self._popString)
+            # self._connectButtonClicked(button, slot)
+        elif text == '⅟ⅹ':
+            slot = self._makeSlot(self._inverseNumber)
+        elif text == '√2':
+            slot = self._makeSlot(self._squareRoot)
+        elif text == 'x²':
+            slot = self._makeSlot(self._exponation)
+
+        self._connectButtonClicked(button, slot)
 
         print('Texto do botão especial:', text)
 

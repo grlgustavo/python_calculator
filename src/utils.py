@@ -7,7 +7,11 @@ def isNumOrDot(string: str):
     return bool(NUM_OR_DOT_REGEX.search(string))
 
 
-def isSignal(string: str):
+def isDot(string: str):
+    return string == '.'
+
+
+def isInverseSignal(string: str):
     return string == '+/-'
 
 
@@ -20,6 +24,16 @@ def isValidNumber(string: str):
     try:
         float(string)
         valid = True
+    except ValueError:
+        valid = False
+    return valid
+
+
+def isZero(string: str):
+    valid = False
+    try:
+        if abs(float(string)) == 0:
+            valid = True
     except ValueError:
         valid = False
     return valid

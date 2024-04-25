@@ -34,7 +34,7 @@ if __name__ == '__main__':
     window.addToVLayout(info)
 
     # Display
-    display = Display('0')
+    display = Display()
     window.addToVLayout(display)
 
     # Grid
