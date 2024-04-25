@@ -7,6 +7,11 @@ if TYPE_CHECKING:  # Evita erros de circular import
     from display import Display, Info
 
 
+class Button(QPushButton):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
 class ButtonsGrid(QGridLayout):
     def __init__(self, display: 'Display', info: 'Info', *args, **kwargs
                  ) -> None:
@@ -39,16 +44,19 @@ class ButtonsGrid(QGridLayout):
                     not isEmpty(buttonText) and
                         not isSignal(buttonText)):
                     button.setProperty('cssClass', 'specialButton')
+                    self._configSpecialButton(button)
                 else:
                     button.setProperty('cssClass', 'numbersButton')
+                    self._configNumbersButton(button)
                 self.addWidget(button, rowNumber, columnNumber)
-                buttonSlot = self._makeButtonDisplaySlot(
-                    self._insertButtonTextToDisplay,
-                    button
-                )
-                button.clicked.connect(buttonSlot)
 
-    def _makeButtonDisplaySlot(self, func, *args, **kwargs):
+                # slot = self._makeSlot(self._insertButtonTextToDisplay,button)
+                # self._connectButtonClicked(button, slot)
+
+    def _connectButtonClicked(self, button, slot):
+        button.clicked.connect(slot)
+
+    def _makeSlot(self, func, *args, **kwargs):
         @Slot(bool)
         def realSlot():
             func(*args, **kwargs)
@@ -56,13 +64,40 @@ class ButtonsGrid(QGridLayout):
 
     def _insertButtonTextToDisplay(self, button):
         buttonText = button.text()
+        displayValue = self.display.text()
+        if displayValue == '0' or displayValue == '-0.0':
+            self.display.clear()
         newDisplayValue = self.display.text() + buttonText
         if not isValidNumber(newDisplayValue):
             return
 
         self.display.insert(buttonText)
 
+    def _changeDisplaySignal(self):
+        displayText = self.display.text()
+        if not isValidNumber(displayText):
+            return
+        displayValue = -1 * float(displayText)
+        self.display.setText(str(displayValue))
 
-class Button(QPushButton):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def _clear(self):
+        self.display.clear()
+
+    def _configSpecialButton(self, button):
+        text = button.text()
+
+        if text == 'C':
+            slot = self._makeSlot(self._clear)
+            self._connectButtonClicked(button, slot)
+
+        print('Texto do botão especial:', text)
+
+    def _configNumbersButton(self, button):
+        text = button.text()
+
+        if text == '+/-':
+            slot = self._makeSlot(self._changeDisplaySignal)
+            self._connectButtonClicked(button, slot)
+        else:
+            slot = self._makeSlot(self._insertButtonTextToDisplay, button)
+            self._connectButtonClicked(button, slot)
