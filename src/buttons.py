@@ -126,6 +126,10 @@ class ButtonsGrid(QGridLayout):
 
     def _operation(self, button):
         buttonText = button.text()
+        if buttonText == '÷':
+            buttonText = '/'
+        elif buttonText == 'x':
+            buttonText = '*'
         displayText = self.display.text()
         self.display.clear()
 
@@ -137,7 +141,25 @@ class ButtonsGrid(QGridLayout):
         self._operator = buttonText
         self.equation = f'{self._left} {self._operator} ??'
 
+    def _solve(self):
+        displayText = self.display.text()
+
+        if not isValidNumber(displayText):
+            return
+
+        self._right = float(displayText)
+        self.equation = f'{self._left} {self._operator} {self._right}'
+        result = eval(self.equation)
+        self._left = result
+        self._operator = None
+        self.equation = str(result)
+        self.display.setText(str(result))
+
     def _clear(self):
+        self._left = None
+        self._right = None
+        self._operator = None
+        self.info.clear()
         self.display.clear()
 
     def _configSpecialButton(self, button):
@@ -147,6 +169,8 @@ class ButtonsGrid(QGridLayout):
             slot = self._makeSlot(self._clear)
         elif text in '+-÷x':
             slot = self._makeSlot(self._operation, button)
+        elif text in '=':
+            slot = self._makeSlot(self._solve)
         elif text == '←':
             slot = self._makeSlot(self._popString)
         elif text == '⅟ⅹ':
