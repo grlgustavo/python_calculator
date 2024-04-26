@@ -1,9 +1,13 @@
 QLabel {
     background-color: none;
+    color: #fff;
+    font-size: 14px;
+    text-align: right; 
 }
 
 QLabel#title {
-    font-size: 20px;
+    font-size: 14px;
+    text-align: right;
 }
 
 

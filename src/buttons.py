@@ -20,13 +20,16 @@ class ButtonsGrid(QGridLayout):
         super().__init__(*args, **kwargs)
         self._gridMask = [['%', 'CE', 'C', '←'],
                           ['⅟ⅹ', 'x²', '√2', '÷'],
-                          ['7', '8', '9', '⨉'],
+                          ['7', '8', '9', 'x'],
                           ['4', '5', '6', '-'],
                           ['1', '2', '3', '+'],
                           ['+/-', '0', '.', '=']]
         self.display = display
         self.info = info
         self._equation = ''
+        self._left = None
+        self._right = None
+        self._operator = None
         self._makeGrid()
 
     @property
@@ -36,7 +39,8 @@ class ButtonsGrid(QGridLayout):
     @equation.setter
     def equation(self, value):
         self._equation = value
-        self.info.setText = value
+        self.info.setText(value)
+        print(value)
 
     def _makeGrid(self):
         for rowNumber, row_data in enumerate(self._gridMask):
@@ -120,6 +124,19 @@ class ButtonsGrid(QGridLayout):
             return
         self.display.setText(str(displayValue))
 
+    def _operation(self, button):
+        buttonText = button.text()
+        displayText = self.display.text()
+        self.display.clear()
+
+        if not isValidNumber(displayText) and self._left is None:
+            return
+        elif self._left is None:
+            self._left = float(displayText)
+
+        self._operator = buttonText
+        self.equation = f'{self._left} {self._operator} ??'
+
     def _clear(self):
         self.display.clear()
 
@@ -128,10 +145,10 @@ class ButtonsGrid(QGridLayout):
         slot = self._makeSlot(self._clear)
         if text == 'C':
             slot = self._makeSlot(self._clear)
-            # self._connectButtonClicked(button, slot)
+        elif text in '+-÷x':
+            slot = self._makeSlot(self._operation, button)
         elif text == '←':
             slot = self._makeSlot(self._popString)
-            # self._connectButtonClicked(button, slot)
         elif text == '⅟ⅹ':
             slot = self._makeSlot(self._inverseNumber)
         elif text == '√2':
