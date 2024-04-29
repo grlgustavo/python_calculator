@@ -30,7 +30,7 @@ if __name__ == '__main__':
             u'CompanyName.ProductName.SubProduct.VersionInformation')
 
     # Info
-    info = Info('TESTE')
+    info = Info('')
     window.addToVLayout(info)
 
     # Display

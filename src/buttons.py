@@ -78,14 +78,6 @@ class ButtonsGrid(QGridLayout):
 
         self.display.insert(buttonText)
 
-    def _popString(self):
-        displayText = self.display.text()
-        try:
-            newDisplayValue = float(displayText[0:len(displayText)-1])
-        except ValueError:
-            return
-        self.display.setText(str(newDisplayValue))
-
     def _inverseNumber(self):
         displayText = self.display.text()
         if isZero(displayText) or isEmpty(displayText) or isDot(displayText):
@@ -148,11 +140,31 @@ class ButtonsGrid(QGridLayout):
             return
 
         self._right = float(displayText)
+        if isZero(str(self._right)):
+            return
         self.equation = f'{self._left} {self._operator} {self._right}'
-        result = eval(self.equation)
+        result = round(eval(self.equation), 4)
+        self.display.setText(str(result))
         self._left = result
         self._operator = None
-        self.equation = str(result)
+        self.equation = f'{self.equation} = {result}'
+
+    def _percentage(self):
+
+        if not isValidNumber(str(self._left)) or isEmpty(str(self._operator)):
+            return
+
+        displayText = self.display.text()
+
+        if not isValidNumber(displayText):
+            return
+
+        self._right = float(displayText)/100
+        self.equation = f'{self._left} {self._operator} {self._right}'
+        result = round(eval(self.equation), 4)
+        self._left = result
+        self._operator = None
+        self.equation = f'{self.equation} = {result}'
         self.display.setText(str(result))
 
     def _clear(self):
@@ -172,17 +184,18 @@ class ButtonsGrid(QGridLayout):
         elif text in '=':
             slot = self._makeSlot(self._solve)
         elif text == '←':
-            slot = self._makeSlot(self._popString)
+            self._connectButtonClicked(button, self.display.backspace)
+            return
         elif text == '⅟ⅹ':
             slot = self._makeSlot(self._inverseNumber)
         elif text == '√2':
             slot = self._makeSlot(self._squareRoot)
         elif text == 'x²':
             slot = self._makeSlot(self._exponation)
+        elif text == '%':
+            slot = self._makeSlot(self._percentage)
 
         self._connectButtonClicked(button, slot)
-
-        print('Texto do botão especial:', text)
 
     def _configNumbersButton(self, button):
         text = button.text()

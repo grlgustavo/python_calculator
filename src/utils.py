@@ -16,7 +16,10 @@ def isInverseSignal(string: str):
 
 
 def isEmpty(string: str):
-    return len(string) == 0
+    if string == 'None' or string is None or len(string) == 0:
+        return True
+    else:
+        return False
 
 
 def isValidNumber(string: str):
@@ -24,7 +27,7 @@ def isValidNumber(string: str):
     try:
         float(string)
         valid = True
-    except ValueError:
+    except (ValueError, TypeError):
         valid = False
     return valid
 
