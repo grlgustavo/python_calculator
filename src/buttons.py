@@ -190,7 +190,7 @@ class ButtonsGrid(QGridLayout):
             slot = self._makeSlot(self._clear)
         elif text in '+-÷x':
             slot = self._makeSlot(self._operation, button)
-        elif text in '=':
+        elif text == '=':
             slot = self._makeSlot(self._solve)
         elif text == '←':
             self._connectButtonClicked(button, self.display.backspace)
