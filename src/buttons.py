@@ -6,6 +6,7 @@ from utils import (isEmpty, isNumOrDot, isValidNumber, isInverseSignal, isZero,
                    isDot)
 
 if TYPE_CHECKING:  # Evita erros de circular import
+    from main_window import MainWindow
     from display import Display, Info
 
 
@@ -15,7 +16,8 @@ class Button(QPushButton):
 
 
 class ButtonsGrid(QGridLayout):
-    def __init__(self, display: 'Display', info: 'Info', *args, **kwargs
+    def __init__(self, display: 'Display', info: 'Info', window: 'MainWindow',
+                 *args, **kwargs
                  ) -> None:
         super().__init__(*args, **kwargs)
         self._gridMask = [['%', 'CE', 'C', '←'],
@@ -26,6 +28,7 @@ class ButtonsGrid(QGridLayout):
                           ['+/-', '0', '.', '=']]
         self.display = display
         self.info = info
+        self.window = window
         self._equation = ''
         self._left = None
         self._right = None
@@ -125,6 +128,7 @@ class ButtonsGrid(QGridLayout):
         self.display.clear()
 
         if not isValidNumber(displayText) and self._left is None:
+            self._showError('Você não digitou nada.')
             return
         elif self._left is None:
             self._left = float(displayText)
@@ -199,3 +203,20 @@ class ButtonsGrid(QGridLayout):
             slot = self._makeSlot(self._insertButtonTextToDisplay, button)
 
         self._connectButtonClicked(button, slot)
+
+    def _showError(self, text):
+        msgBox = self.window.makeMessageBox()
+        msgBox.setText(text)
+        msgBox.setIcon(msgBox.Icon.Critical)
+
+        msgBox.setStandardButtons(
+            msgBox.StandardButton.Cancel |
+            msgBox.StandardButton.Close
+        )
+        msgBox.button(msgBox.StandardButton.Close).setText('Fechar')
+        msgBox.button(msgBox.StandardButton.Cancel).setText('Voltar')
+
+        result = msgBox.exec()
+
+        if result == msgBox.StandardButton.Close:
+            exit()
