@@ -50,10 +50,9 @@ class ButtonsGrid(QGridLayout):
                     not isEmpty(buttonText) and
                         not isInverseSignal(buttonText)):
                     button.setProperty('cssClass', 'specialButton')
-                    self._configSpecialButton(button)
                 else:
                     button.setProperty('cssClass', 'numbersButton')
-                    self._configNumbersButton(button)
+                self._configButton(button)
                 self.addWidget(button, rowNumber, columnNumber)
 
                 # slot = self._makeSlot(self._insertButtonTextToDisplay,button)
@@ -174,7 +173,7 @@ class ButtonsGrid(QGridLayout):
         self.info.clear()
         self.display.clear()
 
-    def _configSpecialButton(self, button):
+    def _configButton(self, button):
         text = button.text()
         slot = self._makeSlot(self._clear)
         if text == 'C':
@@ -194,15 +193,9 @@ class ButtonsGrid(QGridLayout):
             slot = self._makeSlot(self._exponation)
         elif text == '%':
             slot = self._makeSlot(self._percentage)
-
-        self._connectButtonClicked(button, slot)
-
-    def _configNumbersButton(self, button):
-        text = button.text()
-
-        if text == '+/-':
+        elif text == '+/-':
             slot = self._makeSlot(self._changeDisplaySignal)
-            self._connectButtonClicked(button, slot)
         else:
             slot = self._makeSlot(self._insertButtonTextToDisplay, button)
-            self._connectButtonClicked(button, slot)
+
+        self._connectButtonClicked(button, slot)
