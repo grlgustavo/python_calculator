@@ -43,15 +43,16 @@ class ButtonsGrid(QGridLayout):
     def equation(self, value):
         self._equation = value
         self.info.setText(value)
-        print(value)
-
-    def vouApagarVocê(self):
-        print('Signal recebido por "vouApagarVocê" em', type(self).__name__)
 
     def _makeGrid(self):
-        self.display.eqPressed.connect(self.vouApagarVocê)
-        self.display.clearPressed.connect(self.vouApagarVocê)
+
+        self.display.eqPressed.connect(self._solve)
+        self.display.clearPressed.connect(self._clear)
         self.display.delPressed.connect(self.display.backspace)
+        self.display.numbersPressed.connect(self._insertToDisplay)
+        self.display.operatorPressed.connect(print('cheguei aqui!'))
+        # self.display.operatorPressed.connect(self._operation)
+
         for rowNumber, row_data in enumerate(self._gridMask):
             for columnNumber, buttonText in enumerate(row_data):
                 button = Button(buttonText)
@@ -73,15 +74,15 @@ class ButtonsGrid(QGridLayout):
             func(*args, **kwargs)
         return realSlot
 
-    def _insertButtonTextToDisplay(self, button):
-        buttonText = button.text()
-        newDisplayValue = self.display.text() + buttonText
+    @Slot()
+    def _insertToDisplay(self, text):
+        newDisplayValue = self.display.text() + text
         if isDot(newDisplayValue):
-            newDisplayValue = '0'
+            text = '0'
         if not isValidNumber(newDisplayValue):
             return
 
-        self.display.insert(buttonText)
+        self.display.insert(text)
 
     def _inverseNumber(self):
         displayText = self.display.text()
@@ -121,6 +122,7 @@ class ButtonsGrid(QGridLayout):
             return
         self.display.setText(str(displayValue))
 
+    @Slot()
     def _operation(self, button):
         buttonText = button.text()
         if buttonText == '÷':
@@ -139,6 +141,7 @@ class ButtonsGrid(QGridLayout):
         self._operator = buttonText
         self.equation = f'{self._left} {self._operator} ??'
 
+    @Slot()
     def _solve(self):
         displayText = self.display.text()
 
@@ -155,6 +158,7 @@ class ButtonsGrid(QGridLayout):
         self._operator = None
         self.equation = f'{self.equation} = {result}'
 
+    @Slot()
     def _percentage(self):
 
         if not isValidNumber(str(self._left)) or isEmpty(str(self._operator)):
@@ -173,6 +177,7 @@ class ButtonsGrid(QGridLayout):
         self.equation = f'{self.equation} = {result}'
         self.display.setText(str(result))
 
+    @Slot()
     def _clear(self):
         self._left = None
         self._right = None
@@ -203,7 +208,7 @@ class ButtonsGrid(QGridLayout):
         elif text == '+/-':
             slot = self._makeSlot(self._changeDisplaySignal)
         else:
-            slot = self._makeSlot(self._insertButtonTextToDisplay, button)
+            slot = self._makeSlot(self._insertToDisplay, text)
 
         self._connectButtonClicked(button, slot)
 

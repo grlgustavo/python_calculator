@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QLineEdit, QLabel, QWidget
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QKeyEvent
-from utils import isEmpty
+from utils import isEmpty, isNumOrDot
 import variables as var
 
 
@@ -10,6 +10,8 @@ class Display(QLineEdit):
     eqPressed = Signal()
     delPressed = Signal()
     clearPressed = Signal()
+    numbersPressed = Signal(str)
+    operatorPressed = Signal(str)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -26,22 +28,26 @@ class Display(QLineEdit):
         KEYS = Qt.Key
         key = event.key()
 
-        isEnter = key in [KEYS.Key_Enter, KEYS.Key_Return]
+        isEnter = key in [KEYS.Key_Enter, KEYS.Key_Return, KEYS.Key_Equal]
         isDelete = key in [KEYS.Key_Backspace, KEYS.Key_Delete]
         isEsc = key in [KEYS.Key_Escape]
+        isOperator = key in [KEYS.Key_Plus, KEYS.Key_Minus,
+                             KEYS.Key_division, KEYS.Key_multiply,
+                             KEYS.Key_Slash, KEYS.Key_Asterisk]
 
-        # print('Pressionei:', key, text)
         if isEnter:
-            print('Enter Pressionado, sinal emitido', type(self).__name__)
             self.eqPressed.emit()
         elif isDelete:
-            print('Delete Pressionado, sinal emitido', type(self).__name__)
             self.delPressed.emit()
         elif isEsc:
-            print('Escape Pressionado, sinal emitido', type(self).__name__)
             self.clearPressed.emit()
         elif isEmpty(text):
-            print('Pressionei uma tecla sem texto')
+            return event.ignore()
+        elif isNumOrDot(text):
+            self.numbersPressed.emit(text)
+        elif isOperator:
+            print('Saí daqui!')
+            self.numbersPressed.emit(text)
 
         return event.ignore()
         # return super().keyPressEvent(event)
