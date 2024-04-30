@@ -64,9 +64,6 @@ class ButtonsGrid(QGridLayout):
                 self._configButton(button)
                 self.addWidget(button, rowNumber, columnNumber)
 
-                # slot = self._makeSlot(self._insertButtonTextToDisplay,button)
-                # self._connectButtonClicked(button, slot)
-
     def _connectButtonClicked(self, button, slot):
         button.clicked.connect(slot)
 

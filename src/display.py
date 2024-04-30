@@ -30,21 +30,21 @@ class Display(QLineEdit):
         isDelete = key in [KEYS.Key_Backspace, KEYS.Key_Delete]
         isEsc = key in [KEYS.Key_Escape]
 
+        # print('Pressionei:', key, text)
         if isEnter:
             print('Enter Pressionado, sinal emitido', type(self).__name__)
             self.eqPressed.emit()
-            return event.ignore()
-        if isDelete:
+        elif isDelete:
             print('Delete Pressionado, sinal emitido', type(self).__name__)
             self.delPressed.emit()
-            return event.ignore()
-        if isEsc:
+        elif isEsc:
             print('Escape Pressionado, sinal emitido', type(self).__name__)
             self.clearPressed.emit()
-            return event.ignore()
+        elif isEmpty(text):
+            print('Pressionei uma tecla sem texto')
 
-        if isEmpty(text):
-            return event.ignore()
+        return event.ignore()
+        # return super().keyPressEvent(event)
 
 
 class Info(QLabel):
