@@ -46,8 +46,7 @@ class Display(QLineEdit):
         elif isNumOrDot(text):
             self.numbersPressed.emit(text)
         elif isOperator:
-            print('Saí daqui!')
-            self.numbersPressed.emit(text)
+            self.operatorPressed.emit(text)
 
         return event.ignore()
         # return super().keyPressEvent(event)

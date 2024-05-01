@@ -50,8 +50,7 @@ class ButtonsGrid(QGridLayout):
         self.display.clearPressed.connect(self._clear)
         self.display.delPressed.connect(self.display.backspace)
         self.display.numbersPressed.connect(self._insertToDisplay)
-        self.display.operatorPressed.connect(print('cheguei aqui!'))
-        # self.display.operatorPressed.connect(self._operation)
+        self.display.operatorPressed.connect(self._operation)
 
         for rowNumber, row_data in enumerate(self._gridMask):
             for columnNumber, buttonText in enumerate(row_data):
@@ -123,8 +122,8 @@ class ButtonsGrid(QGridLayout):
         self.display.setText(str(displayValue))
 
     @Slot()
-    def _operation(self, button):
-        buttonText = button.text()
+    def _operation(self, text):
+        buttonText = text
         if buttonText == '÷':
             buttonText = '/'
         elif buttonText == 'x':
