@@ -73,7 +73,6 @@ class ButtonsGrid(QGridLayout):
             func(*args, **kwargs)
         return realSlot
 
-    @Slot()
     def _insertToDisplay(self, text):
         newDisplayValue = self.display.text() + text
         if isDot(newDisplayValue):
@@ -121,7 +120,6 @@ class ButtonsGrid(QGridLayout):
             return
         self.display.setText(str(displayValue))
 
-    @Slot()
     def _operation(self, text):
         buttonText = text
         if buttonText == '÷':
@@ -140,7 +138,6 @@ class ButtonsGrid(QGridLayout):
         self._operator = buttonText
         self.equation = f'{self._left} {self._operator} ??'
 
-    @Slot()
     def _solve(self):
         displayText = self.display.text()
 
@@ -157,7 +154,6 @@ class ButtonsGrid(QGridLayout):
         self._operator = None
         self.equation = f'{self.equation} = {result}'
 
-    @Slot()
     def _percentage(self):
 
         if not isValidNumber(str(self._left)) or isEmpty(str(self._operator)):
@@ -176,7 +172,6 @@ class ButtonsGrid(QGridLayout):
         self.equation = f'{self.equation} = {result}'
         self.display.setText(str(result))
 
-    @Slot()
     def _clear(self):
         self._left = None
         self._right = None
