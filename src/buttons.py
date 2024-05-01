@@ -81,6 +81,7 @@ class ButtonsGrid(QGridLayout):
             return
 
         self.display.insert(text)
+        self.display.setFocus()
 
     def _inverseNumber(self):
         displayText = self.display.text()
@@ -91,6 +92,7 @@ class ButtonsGrid(QGridLayout):
         except ValueError:
             self.display.setText('Entrada inválida')
         self.display.setText(str(displayValue))
+        self.display.setFocus()
 
     def _changeDisplaySignal(self):
         displayText = self.display.text()
@@ -101,6 +103,7 @@ class ButtonsGrid(QGridLayout):
         except ValueError:
             self.display.setText('Entrada inválida')
         self.display.setText(str(displayValue))
+        self.display.setFocus()
 
     def _squareRoot(self):
         displayText = self.display.text()
@@ -110,6 +113,7 @@ class ButtonsGrid(QGridLayout):
             self.display.setText('Entrada inválida')
             return
         self.display.setText(str(displayValue))
+        self.display.setFocus()
 
     def _exponation(self):
         displayText = self.display.text()
@@ -119,6 +123,7 @@ class ButtonsGrid(QGridLayout):
             self.display.setText('Entrada inválida')
             return
         self.display.setText(str(displayValue))
+        self.display.setFocus()
 
     def _operation(self, text):
         buttonText = text
@@ -137,6 +142,7 @@ class ButtonsGrid(QGridLayout):
 
         self._operator = buttonText
         self.equation = f'{self._left} {self._operator} ??'
+        self.display.setFocus()
 
     def _solve(self):
         displayText = self.display.text()
@@ -145,7 +151,7 @@ class ButtonsGrid(QGridLayout):
             return
 
         self._right = float(displayText)
-        if isZero(str(self._right)):
+        if isZero(str(self._right)) or isEmpty(str(self._left)):
             return
         self.equation = f'{self._left} {self._operator} {self._right}'
         result = round(eval(self.equation), 4)
@@ -153,6 +159,7 @@ class ButtonsGrid(QGridLayout):
         self._left = result
         self._operator = None
         self.equation = f'{self.equation} = {result}'
+        self.display.setFocus()
 
     def _percentage(self):
 
@@ -171,6 +178,7 @@ class ButtonsGrid(QGridLayout):
         self._operator = None
         self.equation = f'{self.equation} = {result}'
         self.display.setText(str(result))
+        self.display.setFocus()
 
     def _clear(self):
         self._left = None
@@ -178,6 +186,7 @@ class ButtonsGrid(QGridLayout):
         self._operator = None
         self.info.clear()
         self.display.clear()
+        self.display.setFocus()
 
     def _configButton(self, button):
         text = button.text()
@@ -185,7 +194,7 @@ class ButtonsGrid(QGridLayout):
         if text == 'C':
             slot = self._makeSlot(self._clear)
         elif text in '+-÷x':
-            slot = self._makeSlot(self._operation, button)
+            slot = self._makeSlot(self._operation, text)
         elif text == '=':
             slot = self._makeSlot(self._solve)
         elif text == '←':
@@ -219,6 +228,7 @@ class ButtonsGrid(QGridLayout):
         msgBox.button(msgBox.StandardButton.Cancel).setText('Voltar')
 
         result = msgBox.exec()
+        self.display.setFocus()
 
         if result == msgBox.StandardButton.Close:
             exit()
